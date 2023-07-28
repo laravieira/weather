@@ -1,30 +1,25 @@
-[![Test](https://github.com/laravieira/climatempo-challenge/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/laravieira/climatempo-challenge/actions/workflows/test.yml)
-[![AWS Worker](https://github.com/laravieira/climatempo-challenge/actions/workflows/worker.yml/badge.svg)](https://github.com/laravieira/climatempo-challenge/actions/workflows/worker.yml)
+[![Test](https://github.com/laravieira/weather/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/laravieira/weather/actions/workflows/test.yml)
+[![AWS Worker](https://github.com/laravieira/weather/actions/workflows/worker.yml/badge.svg)](https://github.com/laravieira/weather/actions/workflows/worker.yml)
 ![CloudFlare Pages Weather](https://img.shields.io/endpoint?url=https://cloudflare-pages-badges.laravieira.workers.dev/?projectName=weather)
 
-## Resolução do Desafio
-###### [English version](/PROJECT_ENGLISH.md)
+<p align="center">
+  <a href="http://www.climatempo.com.br">
+      <img src="http://i.imgur.com/Q9lCAMF.png" alt="Climatempo" width="300px"/>
+  </a>
+</p>
 
-[![Video](https://img.youtube.com/vi/1B_0Zs2_3VA/0.jpg)](https://www.youtube.com/watch?v=1B_0Zs2_3VA)
+___
 
-### Checklist
-- [x] HTML5/CSS3/Javascript
-- [x] React.js/Typescript/ES-6/JSX
-- [x] API Node.js/Typescript/REST
-- [x] Docker
-- [x] Responsividade
-- [x] Pesquisa autocompleta dinâmica
-- [x] 1 cartão para cada provisão meteorológica diária
-- [x] FE/BE Validação de entrada do usuário
-- [x] Cache (para salvar a personalização)
-- [x] Uso do Elasticsearch como banco de dados
-- [x] Testes unitários com Jest
-- [x] Boas práticas de código/design
-- [x] Página com acessibilidade
-- [x] Uso de dados reais atualizados
-- [x] Desempenho de pesquisa aprimorado com filtragem no cliente
-- [ ] Te faz um café
-- [ ] Arruma sua cama
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=1B_0Zs2_3VA">
+      <img src="https://img.youtube.com/vi/1B_0Zs2_3VA/0.jpg" alt="Video" width="600px"/>
+  </a>
+</p>
+
+___
+
+- [Versão em inglês](README.md)
 
 ### Como executar usando o Docker
 Vá para o diretório raiz do desafio e execute:

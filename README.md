@@ -1,5 +1,5 @@
-[![Test](https://github.com/laravieira/climatempo-challenge/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/laravieira/climatempo-challenge/actions/workflows/test.yml)
-[![AWS Worker](https://github.com/laravieira/climatempo-challenge/actions/workflows/worker.yml/badge.svg)](https://github.com/laravieira/climatempo-challenge/actions/workflows/worker.yml)
+[![Test](https://github.com/laravieira/weather/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/laravieira/weather/actions/workflows/test.yml)
+[![AWS Worker](https://github.com/laravieira/weather/actions/workflows/worker.yml/badge.svg)](https://github.com/laravieira/weather/actions/workflows/worker.yml)
 ![CloudFlare Pages Weather](https://img.shields.io/endpoint?url=https://cloudflare-pages-badges.laravieira.workers.dev/?projectName=weather)
 
 <p align="center">
@@ -19,153 +19,173 @@ ___
 
 ___
 
-Instruções
-- [English version](PROJECT_ENGLISH.md)
-- [Versão em português](PROJECT.md)
+- [Versão em português](README-PTBR.md)
 
-## Processo de recrutamento
+### How to run using Docker
+Go to the challenge root source and run:
+```shell
+docker-compose up
+```
+or, if you have npm available
+```shell
+npm run docker
+```
 
-Olá desenvolvedor, pronto para participar do nosso processo de recrutamento para vaga de Full-stack?
+##### Endpoints:
+- [`http://localhost:3000`](http://localhost:3000) -> Página web
+- [`http://localhost:4000`](http://localhost:4000) -> API REST
+- [`http://localhost:9200`](http://localhost:9200) -> Elasticsearch
 
-### Sobre a Vaga
+### How to run locally
+###### Requirements
+* Elastic search ^8 running without TLS
+* Node.js ^19 installed
+* npm ^8 installed
 
-- Home Office
-- Flexibilidade no horário de trabalho
-- Sede: Parque Tecnológico - São José dos Campos (http://www.pqtec.org.br)
+Set the following environment variables
+* `ELASTIC_HOST=[elastic address with port]`
+* `ELASTIC_USER=[elastic user]`
+* `ELASTIC_PASSWORD=[elastic password]`
 
-### Requisitos para a vaga
+You can create a `.env` file on the `/server` folder to declare these variables in.
 
-Bons conhecimentos em:
+Go to challenge root and type:
+```shell
+npm install
+npm start
+```
 
-- Javascript
-- NodeJS
-- PHP
-- SQL
-- RESTful
-- ReactJS
-- HTML
-- CSS
+##### Endpoints:
+- [`http://localhost:3000`](http://localhost:3000) -> Página web
+- [`http://localhost:4000`](http://localhost:4000) -> API REST
 
-Desejável:
+### How to run tests
+Go to challenge root and type:
+```shell
+npm install
+npm run test
+```
+To test just server, use:
+```shell
+npm run test:server
+```
+To test just web, use:
+```shell
+npm run test:web
+```
 
-- GraphQL
-- NoSQL
-- Docker
+## Approach
+#### Server
+First I started understanding the [dummy data](base) offered on the repo. As the data was too outdated I started searching if the data was available publicly, I find out the [Clima Tempo Advisor API](https://advisor.climatempo.com.br/), which only let limited search of one city per token per 24hs.
 
-### O Desafio
+I saw the [Clima Tempo site](https://www.climatempo.com.br/) offers weather of any city on the base for free, so I decided to implement *web scrapping* to dynamically collect weather data. That is what [`ClimaTempo.engine`](server/src/Engines/ClimaTempo/ClimaTempo.engine.ts) does.
 
-Um usuário quer saber como vai ficar o 
-tempo para os próximos dias em Osasco e São Paulo utilizando
-seu smartphone. 
+So the [used dummy data](server/src/dummy.json) is updated with real data of the period from 26/11/2022 to 10/12/2022 of the following cities:
 
-O que esperamos:
- 
- ##### Frontend:
- - Uma página responsiva;
- - Um campo autocomplete para buscar localidades;
- - Um card para cada dia de previsão;
- ##### Backend:
- - Uma API rest ou graphql para obter localidades e dados de previsão;
- - Validação de entradas do usuário;
- 
- Diferenciais:
- 
- - Utilizar cache;
- - Utilizar Elasticsearch ou algum outro software de **full-text search** para busca de localidades;
- - Configurar ambiente docker para rodar a aplicação;
- 
- ###### uso de bibliotecas é livre.
+- Osasco, SP (Brasil) *
+- São Paulo, SP (Brasil) *
+- Juiz de Fora, MG (Brasil) **
+- Chácara, MG (Brasil) **
+- Fortaleza, CE (Brasil)
+- Gramado, RS (Brasil)
+- Porto de Galinhas, PE (Brasil)
+- Rio de Janeiro, RJ (Brasil)
+- Curitiba, PR (Brasil)
+- Arraial do Cabo, RJ (Brasil)
+- Natal, RN (Brasil)
+- Campos do Jordão, SP (Brasil)
+- Belo Horizonte, MG (Brasil)
+- Angra dos Reis, RJ (Brasil)
 
-### Desafio Extra (opcional)
-  
-  Permita que o usuário selecione em qual unidade de temperatura e chuva (precipitação) ele quer visualizar os dados.
-  
-  ###### Design livre.
-  
-  ##### Conversão dos valores:
-  
-  - Temperatura:
-    - de **°C** pra **°F**: (`valor` * 1.8) + 32
-    - de **°F** pra **°C**: (`valor` - 32) / 1.8
-  - Chuva:
-    - de **mm** pra **inch**: (`valor` / 25.4)
-    - de **inch** pra **mm**: (`valor` * 25.4)
-  
+###### * Required city on the challenge
+###### ** Cities that I'm on
 
-### Avaliação
+When the server is started first time the dummy data is indexed on elastic to be ready available to the user search.
 
-O que vamos avaliar:
+The server will automatically fall back any request to the ClimaTempo engine and index the response making elastic act like a cache. If elastic has the data already, it will be quickly sent to the client and posteriorly fall back to the ClimaTempo engine to update elastic data.
 
-- Performance de busca e renderização;
-- Segurança;
-- Testes;
-- Manutenibilidade;
-- Usabilidade;
-- Boas práticas;
+##### The available endpoint are:
+```shell
+GET /search/[string] # to search cities by name
+GET /ping # To ping-pong the server
+GET /city/[id] # To get city's basic info
+GET /city/[id]/now # To get current weather
+GET /city/[code]/weather # To get the current day weather
+GET /city/[code]/weathers # To get the current and next 14 days weather
+```
 
-Exemplo:
+#### Frontend
+The frontend is using [MUI](https://mui.com/) design kit and [Tailwindcss](https://tailwindcss.com/) for style, it's designed responsively for desktop, tablet and mobile. On the header you can:
+* Search the city with dynamic auto complete options
+* Switch between dark and light mode (it first will follow system default, and cache option if you manually change it)
+* Switch between °C and °F units (default is °C, it caches if you manually change it)
+* Switch between *mm* and *inch* units (default is *mm*, it caches if you manually change it)
 
-<p align="center">
-  <a href="http://www.climatempo.com.br">
-      <img src="http://i.imgur.com/x3z4tYM.png" alt="Climatempo" width="400px"/>
-  </a>
-</p>
+### The web scraping data format:
 
-**Atenção:**  Não se preocupe em reproduzir o exemplo, use apenas como referência.
- 
-### Dados
- 
-Localidades:
-    
-    base/locales.json
- 
-| Propriedade   | Tipo   | Descrição                           |
-| ------------- |:------:| ------------------------------------|
-| `id`          | Number | Id da localidade                    |
-| `name`        | String | Nome da localidade                  |
-| `state`       | String | Sigla do estado da localidade       |
-| `latitude`    | Number | Latitude do centro da localidade    |
-| `longitude`   | Number | Longitude do centro da localidade   |
- 
- 
-Previsão:
- 
-    base/weather.json
-    
-**period: Object**
- 
-| Propriedade        | Tipo   | Descrição                                  |
-| ------------------ |:------:| -------------------------------------------|
-| `period.begin`     | String | Data início da busca no formato AAAA-MM-DD |
-| `period.end `      | String | Data fim  da busca no formato AAAA-MM-DD   |
+###### [City basic info](server/src/Models/Locale.model.ts)
+```yaml
+id: number # The city's id
+name: string # The city's name
+uf: string # The city's state
+city: number # The city's code
+region: string # The city's region
+acronym: string # The city's country acronym
+```
 
-**locale: Object**
- 
-Os mesmos dados do JSON de localidades.
- 
-**weather: Object**
- 
-| Propriedade                     | Tipo   | Descrição                                  |
-| ------------------------------- |:------:| -------------------------------------------|
-| `weather.date`                  | String | Data da previsão no formato AAAA-MM-DD     |
-| `weather.text`                  | String | Texto sobre a previsão do dia              |
-| `weather.temperature.min`       | Number | Temperatura mínima em graus celsius (°C)   |
-| `weather.temperature.max`       | Number | Temperatura máxima em graus celsius (°C)   |
-| `weather.rain.probability`      | Number | Probabilidade de chuva em porcentagem (%)  |
-| `weather.rain.precipitation`    | Number | Precipitação de chuva em milímetros (mm)   |
+###### [City detailed info](server/src/Models/DetailedLocale.model.ts)
+```yaml
+idlocale: number # The city's id
+idcity: number # The city's code
+capital: boolean # If city is a capital
+idcountry: number # The country's id
+ac: string # The country's acronym
+country: string # The country's name
+uf: string # The city's state
+city: string # The city's name
+region: string # The city's region
+seaside: boolean # If it's a coast city
+latitude: number # The city's latitude
+longitude: number # The city's longitude
+tourist: boolean # If it's a tourism city
+agricultural: boolean # If it's a agricultural city
+base: string # Looks like city's collection name
+searchPoints: number # How likely its desired
+```
 
-### Comece
+###### [Instant WeatherController info](server/src/Models/InstantWeather.model.ts)
+```yaml
+idlocale: number # The city's id
+temperature: number # The current temperature
+icon: string # The alias for weather icons
+condition: string # A description of the current weather
+humidity: number # The current humidity level
+sensation: number # The current temperature sensation
+windVelocity: number # The current wind velocity
+pressure: number # The current atmospheric pressure
+date: string # The date and time of this weather info
+```
 
-O processo do desafio deve ser:
-
-1. Faça o fork do desafio.
-
-2. Crie um **PROJECT.md** com a explicação de como devemos executar o projeto e com o máximo de detalhes possível do que foi feito.
-
-3. Após concluir faça um pull request, preencha o [formulario](https://docs.google.com/forms/d/e/1FAIpQLSfPIwojh04iSxIrrOJSyrMvYcStLpoO3luR11ZxBY_pkWsjGA/viewform)
-
-
-___
-
-
-Qualquer dúvida entre em contato com nossa equipe.
+###### [Daily WeatherController info](server/src/Models/DailyWeather.model.ts)
+```yaml
+idcity: number # The city's code
+moon: string[] # The day's list of moons
+rainbow: string # The description of probability of a rainbow
+description: string # The day's WeatherController resume
+date: string # The day's date
+temperature:
+  min: number # The day's minimum temperature
+  max: number # The day's maximum temperature
+rain:
+  precipitation: number # The day's rain preciptation
+  probability: number # The day's raining probabilily
+wind:
+  compass: string # The wind direction in cartesian
+  velocity: number # The wind average velocity
+humidity:
+  min: number # The minimum humidity of the day
+  max: number # The maximum humidity of the day
+sun:
+  morning: string # The sunshine hour
+  afternoon: string # The sunrise hour
+```
