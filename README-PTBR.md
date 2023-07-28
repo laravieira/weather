@@ -21,6 +21,24 @@ ___
 
 - [Versão em inglês](README.md)
 
+### Skills
+- [x] HTML5/CSS3/Javascript
+- [x] React.js/Typescript/ES-6/JSX
+- [x] API Node.js/Typescript/REST
+- [x] Docker
+- [x] Responsividade
+- [x] Pesquisa autocompleta dinâmica
+- [x] 1 cartão para cada provisão meteorológica diária
+- [x] FE/BE Validação de entrada do usuário
+- [x] Cache (para salvar a personalização)
+- [x] Uso do Elasticsearch como banco de dados
+- [x] Testes unitários com Jest
+- [x] Boas práticas de código/design
+- [x] Página com acessibilidade
+- [x] Uso de dados reais atualizados
+- [x] Desempenho de pesquisa aprimorado com filtragem no cliente
+- [ ] Arruma minha cama
+
 ### Como executar usando o Docker
 Vá para o diretório raiz do desafio e execute:
 ```shell

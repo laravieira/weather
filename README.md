@@ -21,6 +21,24 @@ ___
 
 - [Versão em português](README-PTBR.md)
 
+### Skills
+- [x] HTML5/CSS3/Javascript
+- [x] React.js/Typescript/ES-6/JSX
+- [x] Node.js/Typescript/REST API
+- [x] Docker
+- [x] Responsiveness
+- [x] Dynamic auto complete search
+- [x] 1 card for each daily weather provision
+- [x] FE/BE User input validation
+- [x] Cache (to save customization)
+- [x] Use of Elasticsearch as db
+- [x] Jest unit tests
+- [x] Good code/design practices
+- [x] Accessibility ready page
+- [x] Real updated data usage
+- [x] Improved search performance with client filtering
+- [ ] Make my bed
+
 ### How to run using Docker
 Go to the challenge root source and run:
 ```shell
