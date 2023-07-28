@@ -46,7 +46,7 @@ function InstantWeather() {
     }, [locale]);
 
     function renderSubInfo(caption: string, info: string|number, unity: ReactNode) {
-        return <div className="text-center sm:text-left">
+        return <div className="sm:text-left gap-0">
             <div className="hidden sm:flex">
                 <Typography variant='h4' className="w-fit">
                     { info }
@@ -56,7 +56,7 @@ function InstantWeather() {
                 </Typography>
             </div>
             <div className="flex sm:hidden">
-                <Typography variant='h5' className="w-fit">
+                <Typography variant='h3' className="w-fit">
                     { info }
                 </Typography>
                 <Typography variant='subtitle1'>
@@ -84,19 +84,23 @@ function InstantWeather() {
                 <Typography variant='h6' className="hidden lg:block">
                     { condition }
                 </Typography>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 max-w-[400px] w-full sm:max-w-full mx-auto">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-y-3 sm:gap-8 max-w-[400px] w-full sm:max-w-full mx-auto">
                     { renderSubInfo('Sensação', tempUnity === 'c'
                         ? sensation
-                        : ((sensation * 1.8) + 32).toFixed(0), tempUnity === 'c' ?
-                        <div className="mt-[-2.5rem]">°C</div>
-                        : <div className="mt-[-2.5rem]">°F'</div>) }
-                    { renderSubInfo('Humidade', humidity, <div className="mt-[-2.5rem]">%</div>)}
+                        : ((sensation * 1.8) + 32).toFixed(0), tempUnity === 'c'
+                            ? <div className="mt-[.5rem] sm:mt-[-2.5rem]">°C</div>
+                            : <div className="mt-[.5rem] sm:mt-[-2.5rem]">°F'</div>
+                        )
+                    }
+                    { renderSubInfo('Humidade', humidity, <div className="mt-[.5rem] sm:mt-[-2.5rem]">%</div>)}
                     { renderSubInfo('Vento', tempUnity === 'c'
                         ? windVelocity
                         : (windVelocity/1.609).toFixed(0), tempUnity === 'c'
-                        ? <div className="">km/h</div>
-                        : <div className="">mph</div>) }
-                    { renderSubInfo('Pressão', pressure, <div className="">hPa</div>) }
+                            ? <div className="mt-[1.7rem] sm:mt-0">km/h</div>
+                            : <div className="mt-[1.7rem] sm:mt-0">mph</div>
+                        )
+                    }
+                    { renderSubInfo('Pressão', pressure, <div className="mt-[1.7rem] sm:mt-0">hPa</div>) }
                 </div>
             </div>
         </>;
