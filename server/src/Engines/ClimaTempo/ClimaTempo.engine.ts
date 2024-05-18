@@ -68,12 +68,12 @@ class ClimaTempoEngine {
     async weatherByCityId(id: number): Promise<InstantWeatherModel> {
         return await fetch(`${ ClimaTempoEngine.baseUrl }/json/myclimatempo/user/weatherNow?idlocale=${id}`)
             .then(res => res.json())
-            .then(data => {
-                if(!data[0].data)
+            .then((data: any) => {
+                if(!data?.data?.getWeatherNow?.[0]?.data?.[0]?.weather)
                     return Promise.reject('Invalid response.');
                 return {
                     idlocale: id,
-                ...data[0].data[0].weather[0]
+                  ...data.data.getWeatherNow[0].data[0].weather
                 } as InstantWeatherModel;
             });
     }
@@ -81,10 +81,10 @@ class ClimaTempoEngine {
     async cityInfoById(id: number): Promise<LocaleModel> {
         return await fetch(`${ ClimaTempoEngine.baseUrl }/json/myclimatempo/user/weatherNow?idlocale=${id}`)
             .then(res => res.json())
-            .then(data => {
-                if(!data[0].data)
+            .then((data: any) => {
+                if(!data?.data?.getWeatherNow?.[0]?.data?.[0]?.locale)
                     return Promise.reject('Invalid response.');
-                return data[0].data[0].locale as LocaleModel;
+                return data.data.getWeatherNow[0].data[0].locale as LocaleModel;
             });
     }
 
@@ -97,7 +97,7 @@ class ClimaTempoEngine {
             body
         })
             .then(res => res.json())
-            .then(data => data[0].response.data as DetailedLocaleModel[])
+            .then((data: any) => data[0].response.data as DetailedLocaleModel[])
             .catch(err => {
                 console.log(err);
                 return [] as DetailedLocaleModel[];
