@@ -15,6 +15,6 @@
     "test": "npm run test:web && npm run test:server"
   },
   "devDependencies": {
-    "concurrently": "^7.6.0"
+    "concurrently": "^8.2.2"
   }
 }

@@ -3,23 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
-    "@fontsource/roboto": "^4.5.8",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@fontsource/roboto": "^5.0.13",
     "@icon-park/react": "^1.4.2",
-    "@mui/icons-material": "^5.10.15",
-    "@mui/material": "^5.10.15",
-    "@reduxjs/toolkit": "^1.9.0",
-    "autoprefixer": "^10.4.13",
-    "notistack": "^2.0.8",
-    "postcss": "^8.4.19",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-redux": "^8.0.5",
+    "@mui/icons-material": "^5.15.18",
+    "@mui/material": "^5.15.18",
+    "@reduxjs/toolkit": "^1.9.7",
+    "autoprefixer": "^10.4.19",
+    "notistack": "^3.0.1",
+    "postcss": "^8.4.38",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-redux": "^9.1.2",
     "react-scripts": "^5.0.1",
-    "tailwindcss": "^3.2.4",
+    "tailwindcss": "^3.4.3",
     "weather-icons-react": "^1.2.0",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^4.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -50,14 +50,14 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@types/jest": "^29.2.3",
-    "@types/react-test-renderer": "^18.0.0",
-    "react-test-renderer": "^18.2.0",
-    "@types/react-dom": "^18.0.9",
-    "ts-jest": "^29.0.3",
-    "ts-loader": "^9.4.1",
-    "typescript": "^4.9.3",
-    "webpack": "^5.75.0"
+    "@testing-library/jest-dom": "^6.4.5",
+    "@types/jest": "^29.5.12",
+    "@types/react-test-renderer": "^18.3.0",
+    "react-test-renderer": "^18.3.1",
+    "@types/react-dom": "^18.3.0",
+    "ts-jest": "^29.1.2",
+    "ts-loader": "^9.5.1",
+    "typescript": "^4.9.5",
+    "webpack": "^5.91.0"
   }
 }
