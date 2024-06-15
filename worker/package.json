@@ -2,6 +2,7 @@
   "name": "worker",
   "version": "0.0.1",
   "description": "Confira todas as previsões de temperaturas pelo país agora e daqui a 7 dias (plano gratuito)!",
+  "type": "module",
   "private": true,
   "author": "Lara Vieira",
   "main": "src/index.ts",
