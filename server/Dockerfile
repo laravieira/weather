@@ -4,7 +4,5 @@ COPY ./package.json ./package.json
 RUN npm install
 COPY . .
 
-RUN npm run build
-
 EXPOSE 4000
-CMD ["node", "build/index.js"]
+CMD ["npx", "tsx", "./src/index.ts"]
