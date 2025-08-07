@@ -10,6 +10,6 @@ ENV REACT_APP_SERVER_PORT $REACT_APP_SERVER_PORT
 COPY ./package.json ./package.json
 RUN npm install --quiet
 COPY . .
-RUN npm run build:web
+RUN npm run build
 EXPOSE 3000
-CMD ["npm", "start:web", "--", "--host"]
+CMD ["npm", "start", "--", "--host"]
