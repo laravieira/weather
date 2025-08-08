@@ -19,4 +19,10 @@ module.exports = {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
     },
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env.REACT_APP_SERVER_HOST': JSON.stringify(process.env.REACT_APP_SERVER_HOST),
+            'process.env.REACT_APP_SERVER_PORT': JSON.stringify(process.env.REACT_APP_SERVER_PORT),
+        }),
+    ],
 };
